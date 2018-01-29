@@ -19,18 +19,58 @@
 
 </head>
 <body>
-  <div class="features">Hello world.</div>
   <ul>
   </ul>
   <script src="camp_features.js"></script>
   <script>
+    function getAvaiableIcon(present) {
+      if (present) {
+          return "<i class='fa fa-check' aria-hidden='true'></i>"
+      } else {
+          return "<i class='fa fa-times' aria-hidden='true'></i>"
+      }
+    }
+
+    function getHipcampIcon(featureName) {
+      switch (featureName) {
+        case 'Toilet':
+          return "<i class='fa fa-bath' aria-hidden='true'></i>"
+        case 'Pets allowed':
+          return "<i class='fa fa-paw' aria-hidden='true'></i>"
+        case 'Shower':
+          return "<i class='fa fa-shower' aria-hidden='true'></i>"
+        case 'Trash':
+          return "<i class='fa fa-trash-o' aria-hidden='true'></i>"
+      }
+    }
+
+    function getSubfeatures(subfeatures) {
+      if(subfeatures.length){
+        subfeaturesString = "<ul>"
+        $.each(subfeatures, function(subindex, subfeature) {
+          subfeatureIcon = getAvaiableIcon(subfeature.presence)
+          subfeaturesString += "<li><p>" + subfeature.title + subfeatureIcon + "</p></li>"
+        });
+        subfeaturesString += "</ul>"
+      } else {
+        subfeaturesString = ""
+      }
+      return subfeaturesString
+    }
+
+
     $(function () {
       console.log(FEATURES)
+      listItems = ""
 
       $.each(FEATURES, function(index, value) {
-        $("ul").append("<li>" + value.title + "</li>");
+        icon = getAvaiableIcon(value.presence)
+        hipcampIcon = getHipcampIcon(value.title)
+        subfeatures = getSubfeatures(value.subfeatures)
+        listItems += "<li>" + "<p>" + hipcampIcon + value.title + icon + "</p>" + subfeatures +"</li>"
       });
 
+      $("ul").html(listItems);
     });
   </script>
 </body>
