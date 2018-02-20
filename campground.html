@@ -6,7 +6,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  <script src="https://use.fontawesome.com/e09a3039e4.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -16,37 +16,40 @@
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+  <style>
+    .display_none { display: none;}
+  </style>
 </head>
 <body>
   <ul>
   </ul>
   <script src="camp_features.js"></script>
   <script>
+  $(document).ready(function(){
     function getAvaiableIcon(present) {
       if (present) {
-          return "<i class='fa fa-check' aria-hidden='true'></i>"
+          return "<i class='fas fa-check' aria-hidden='true'></i>"
       } else {
-          return "<i class='fa fa-times' aria-hidden='true'></i>"
+          return "<i class='fas fa-times' aria-hidden='true'></i>"
       }
     }
 
     function getHipcampIcon(featureName) {
       switch (featureName) {
         case 'Toilet':
-          return "<i class='fa fa-bath' aria-hidden='true'></i>"
+          return "<i class='fas fa-bath' aria-hidden='true'></i>"
         case 'Pets allowed':
-          return "<i class='fa fa-paw' aria-hidden='true'></i>"
+          return "<i class='fas fa-paw' aria-hidden='true'></i>"
         case 'Shower':
-          return "<i class='fa fa-shower' aria-hidden='true'></i>"
+          return "<i class='fas fa-shower' aria-hidden='true'></i>"
         case 'Trash':
-          return "<i class='fa fa-trash-o' aria-hidden='true'></i>"
+          return "<i class='fas fa-trash' aria-hidden='true'></i>"
       }
     }
 
     function getSubfeatures(subfeatures) {
       if(subfeatures.length){
-        subfeaturesString = "<ul>"
+        subfeaturesString = "<ul class='display_none'>"
         $.each(subfeatures, function(subindex, subfeature) {
           subfeatureIcon = getAvaiableIcon(subfeature.presence)
           subfeaturesString += "<li><p>" + subfeature.title + subfeatureIcon + "</p></li>"
@@ -58,7 +61,6 @@
       return subfeaturesString
     }
 
-
     $(function () {
       console.log(FEATURES)
       listItems = ""
@@ -67,11 +69,19 @@
         icon = getAvaiableIcon(value.presence)
         hipcampIcon = getHipcampIcon(value.title)
         subfeatures = getSubfeatures(value.subfeatures)
-        listItems += "<li>" + "<p>" + hipcampIcon + value.title + icon + "</p>" + subfeatures +"</li>"
+        listItems += "<li class='feature_li'>" + "<p>" + hipcampIcon + value.title + icon + "</p>" + subfeatures +"</li>"
       });
 
       $("ul").html(listItems);
+
+      $(".feature_li").click(function(){
+        $(this).find("ul").toggle();
+      });
+
     });
+
+
+  });
   </script>
 </body>
 </html>
